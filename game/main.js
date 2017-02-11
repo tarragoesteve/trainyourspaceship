@@ -96,7 +96,8 @@ function mainloop(){
 	for(var i=0; i<bullets.length; ++i){
 		bullets[i].t--;
 		if(bullets[i].t==0) {
-			players.splice(i, 1);
+			bullets.splice(i, 1);
+			continue;
 		}
 		if(bullets[i].d==0) bullets[i].y--;
 		else if(bullets[i].d==1) bullets[i].x++;
