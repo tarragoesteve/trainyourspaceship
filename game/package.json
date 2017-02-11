@@ -6,6 +6,7 @@
     "express": "^4.10.2",
     "socket.io": "*",
     "http": "*",
-    "ejs": "*"
+    "ejs": "*",
+    "body-parser" :"*"
   }
 }
