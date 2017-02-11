@@ -31,6 +31,7 @@
 	    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	    <script>
+
 			//Pres keys
 			document.addEventListener('keydown', function(event) {
 
@@ -68,8 +69,7 @@
 					
 			}
 
-
-			//print player
+			//print bullet
 			function printBullet(bullet) {
 				console.log(bullet);
 				
@@ -77,47 +77,50 @@
 				ctx.arc(20*bullet.posbx+10,20*bullet.posby+10, 5, 0, 2*Math.PI);
 				ctx.fillStyle='red'
 				ctx.fill();
-				ctx.stroke();
-				
-			
+				ctx.stroke();		
 			}
-			
-			
 
-			var uo = document.getElementById("screengame");
-			var ctx = uo.getContext("2d");
-			ctx.fillStyle = "blue";
-			ctx.fillRect(0, 0, uo.width, uo.height);
+		//start Game	
+		function startGame() {
+			socket.emit('startGame','')
+		}
 
-			
-			printPlayer(player);
-			printBullet(bullet);
+		//canvas
+		var uo = document.getElementById("screengame");
+		var ctx = uo.getContext("2d");
+		ctx.fillStyle = "rgba(255,255,255,1)";
+		ctx.fillRect(0, 0, uo.width, uo.height);
 		
 		//init
 		var socket = io();
 		
-		//io functions
-		//sent to server
-		//socket.emit('Hello','');
-
-		function startGame() {
-			socket.emit('startGame','')
-		}
-		
-		/*socket.on('Hello', function(obj){
-			$("#page").html("Hello");
-		});*/
-		
 		//update game
 		socket.on('updateGame', function(msg){
-			obj = {positions_players: positions, positions_bullets: bullets};
-			var pos_player_curr=msg.positions_players[socket.id];
-			var pos_bullets = msg.position_bullets;
+			console.log(msg);
+			ctx.clearRect(0, 0, uo.width, uo.height);
+			ctx.fillStyle = "rgba(255,255,255,0.5)";
+			ctx.fillRect(0, 0, uo.width, uo.height);
+			var id = socket.io.engine.id;
+			var pos_players=msg.positions_players;
+			var pos_bullets = msg.positions_bullets;
 
-			var player = {posx: pos_player_curr.x, posy: pos_player_curr.y, dir}
-		}
-		var player = {posx : 10, posy : 20, dir : 0, color : "black"};
-		var bullet={posbx:10, posby: 10};
+			var player;
+			var bullet;
+			for(var i in pos_players){
+				if(i==id){
+					player = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'black'};
+				}
+				else{
+					player = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'green'};
+				}
+			printPlayer(player);
+			}
+			console.log(pos_bullets);
+			for(var i=0; i<pos_bullets.lenght; ++i){
+				bullet = {posbx: pos_bullets.x, posby: pos_bullets.y};
+				printBullet(bullet);
+			}
+		});
     	</script>
 			
 	</body>

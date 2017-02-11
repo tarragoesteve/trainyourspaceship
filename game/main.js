@@ -43,8 +43,8 @@ io.on('connection', function(socket){
 	socket.on('startGame', function(){
 		if(players.length>1){
 			for (var i=0; i<2; ++i){
-				keys[socket.id]=0;
-				positions[players[i]]={x : Math.round(Math.random()*24),y : Math.round(Math.random()*59), d : Math.round(Math.random()*3)};
+				keys[players[i]]=0;
+				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3)};
 				console.log('Comença la partida');
 			}
 			playing = true;
@@ -54,31 +54,31 @@ io.on('connection', function(socket){
 	
 function mainloop(){
 	if(!playing) return;
+	console.log('entra loop');
 	for(var i=0; i<2;++i){
 		var id_play=players[i];
-
 		//moure players
 		if(players_actions){
 			//actualitzar posicions
 			if(keys[id_play]==0){ //recte
-				if(positions[id_play].d==0) positions[id_play].x++;
-				if(positions[id_play].d==1) positions[id_play].y++;
-				if(positions[id_play].d==2) positions[id_play].x--;
-				if(positions[id_play].d==3) positions[id_play].y--;
+				if(positions[id_play].d==0) positions[id_play].y--;
+				if(positions[id_play].d==1) positions[id_play].x++;
+				if(positions[id_play].d==2) positions[id_play].y++;
+				if(positions[id_play].d==3) positions[id_play].x--;
 			}
 			else if(keys[id_play]==1){//gir esquerra
 				positions[id_play].d--;
 				if(positions[id_play].d==-1) positions[id_play].d=3;
 			}
-			else if(keys[id_play]=2){//gir dreta
+			else if(keys[id_play]==2){//gir dreta
 				positions[id_play].d++;
 				if(positions[id_play].d==4) positions[id_play].d=0;
 			}
 			//comprovar posicions correctes i actualitzar si surt dels marges
-			if(positions[id_play].x>24) positions[id_play].x=0;
-			else if(positions[id_play].x<0) positions[id_play].x=24;
-			if(positions[id_play].y>59) positions[id_play].y=0;
-			else if(positions[id_play].y<0) positions[id_play].y=59;
+			if(positions[id_play].y>24) positions[id_play].y=0;
+			else if(positions[id_play].y<0) positions[id_play].y=24;
+			if(positions[id_play].x>59) positions[id_play].x=0;
+			else if(positions[id_play].x<0) positions[id_play].x=59;
 		}
 
 		//disparar i tractar bales
@@ -87,15 +87,19 @@ function mainloop(){
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 20};
 			bullets.push(new_bullet);
 		}
-		//mou bales
-		for(var i=0; i<bullets.length; ++i){
-			bullets[i].t--;
-			if(bullets[i].t==0) delete bullets[i];
-		}
+		console.log(i);
 	}
+	console.log("fora loop")
+	//mou bales
+	for(var i=0; i<bullets.length; ++i){
+		bullets[i].t--;
+		if(bullets[i].t==0) delete bullets[i];
+	}
+
 	//enviar estat
 	var obj = {positions_players: positions, positions_bullets: bullets};
 	io.emit('updateGame', obj);
+	console.log('Envio estat');
 
 	//colisions
 	for(var i=0; i<bullets.length;++i){
@@ -121,3 +125,4 @@ function mainloop(){
 }
 
 setInterval(mainloop,100);
+console.log('acaba');
