@@ -30,19 +30,21 @@
 		<!-- Js -->
 	    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-	    <script>
+	    <script>	
+			//init
+			var socket = io();
 
 			//Pres keys
 			document.addEventListener('keydown', function(event) {
 
 				if (String.fromCharCode(event.keyCode) == 'A') {
-					io.emit('keyPressed', 1);
+					socket.emit('keyPressed', 1);
 				}
 				else if (String.fromCharCode(event.keyCode) == 'D') {
-					io.emit('keyPressed', 2);
+					socket.emit('keyPressed', 2);
 				}
 				else if (String.fromCharCode(event.keyCode) == 'W') {
-					io.emit('keyPressed', 3);
+					socket.emit('keyPressed', 3);
 				}
 			}, true);
 
@@ -90,9 +92,6 @@
 		var ctx = uo.getContext("2d");
 		ctx.fillStyle = "rgba(255,255,255,1)";
 		ctx.fillRect(0, 0, uo.width, uo.height);
-		
-		//init
-		var socket = io();
 		
 		//update game
 		socket.on('updateGame', function(msg){

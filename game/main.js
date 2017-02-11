@@ -35,9 +35,11 @@ io.on('connection', function(socket){
    players.push(socket.id);
 	//Hello
 	socket.on('disconnect', function(){
-		delete players[socket.id];
+		var index = players.indexOf(socket.id);
+		players.splice(index, 1);
 	});
 	socket.on('keyPressed', function(msg){
+		console.log('keyPressed' + msg)
 		keys[socket.id]=msg;
 	});
 	socket.on('startGame', function(){
@@ -45,7 +47,7 @@ io.on('connection', function(socket){
 			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
 				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3)};
-				console.log('Comença la partida');
+				//console.log('Comença la partida');
 			}
 			playing = true;
 		}
@@ -54,7 +56,7 @@ io.on('connection', function(socket){
 	
 function mainloop(){
 	if(!playing) return;
-	console.log('entra loop');
+	//console.log('entra loop');
 	for(var i=0; i<2;++i){
 		var id_play=players[i];
 		//moure players
@@ -62,9 +64,9 @@ function mainloop(){
 			//actualitzar posicions
 			if(keys[id_play]==0){ //recte
 				if(positions[id_play].d==0) positions[id_play].y--;
-				if(positions[id_play].d==1) positions[id_play].x++;
-				if(positions[id_play].d==2) positions[id_play].y++;
-				if(positions[id_play].d==3) positions[id_play].x--;
+				else if(positions[id_play].d==1) positions[id_play].x++;
+				else if(positions[id_play].d==2) positions[id_play].y++;
+				else if(positions[id_play].d==3) positions[id_play].x--;
 			}
 			else if(keys[id_play]==1){//gir esquerra
 				positions[id_play].d--;
@@ -87,19 +89,32 @@ function mainloop(){
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 20};
 			bullets.push(new_bullet);
 		}
-		console.log(i);
+		//console.log(i);
 	}
-	console.log("fora loop")
+
+	//vector tecles premudes a res
+	for(var i=0; i<2; ++i){
+		id_play=players[i];
+		keys[id_play] = 0;
+	}
+	
+	//console.log("fora loop")
 	//mou bales
 	for(var i=0; i<bullets.length; ++i){
 		bullets[i].t--;
-		if(bullets[i].t==0) delete bullets[i];
+		if(bullets[i].t==0) {
+			players.splice(i, 1);
+		}
+		if(bullets[i].d==0) bullets[i].y--;
+		else if(bullets[i].d==1) bullets[i].x++;
+		else if(bullets[i].d==2) bullets[i].y++;
+		else if(bullets[i].d==3) bullets[i].x--;
 	}
 
 	//enviar estat
 	var obj = {positions_players: positions, positions_bullets: bullets};
 	io.emit('updateGame', obj);
-	console.log('Envio estat');
+	//console.log('Envio estat');
 
 	//colisions
 	for(var i=0; i<bullets.length;++i){
@@ -113,16 +128,10 @@ function mainloop(){
 		}
 	}
 
-	//vector tecles premudes a res
-	for(var i=0; i<2; ++i){
-		id_play=players[i];
-		keys[id_play] = 0;
-	}
-
 	//canviar si es mou el jugador o no
 	if(players_actions) players_actions=false;
 	else players_actions=true;
 }
 
 setInterval(mainloop,100);
-console.log('acaba');
+//console.log('acaba');
