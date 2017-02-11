@@ -45,9 +45,7 @@
 				}
 			}, true);
 
-			//aux functions
-
-			//print player
+     		//print player
 			function printPlayer(player) {
 				console.log(player);
 				ctx.fillStyle = player.color;
@@ -71,7 +69,7 @@
 			}
 
 
-						//print player
+			//print player
 			function printBullet(bullet) {
 				console.log(bullet);
 				
@@ -91,19 +89,9 @@
 			ctx.fillStyle = "blue";
 			ctx.fillRect(0, 0, uo.width, uo.height);
 
-			var player = {posx : 10, posy : 20, dir : 0, color : "black"};
-			var bullet={posbx:10, posby: 10}
+			
 			printPlayer(player);
 			printBullet(bullet);
-
-			
-
-
-
-
-
-
-		
 		
 		//init
 		var socket = io();
@@ -120,6 +108,16 @@
 			$("#page").html("Hello");
 		});*/
 		
+		//update game
+		socket.on('updateGame', function(msg){
+			obj = {positions_players: positions, positions_bullets: bullets};
+			var pos_player_curr=msg.positions_players[socket.id];
+			var pos_bullets = msg.position_bullets;
+
+			var player = {posx: pos_player_curr.x, posy: pos_player_curr.y, dir}
+		}
+		var player = {posx : 10, posy : 20, dir : 0, color : "black"};
+		var bullet={posbx:10, posby: 10};
     	</script>
 			
 	</body>
