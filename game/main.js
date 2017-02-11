@@ -42,7 +42,7 @@ io.on('connection', function(socket){
 	});
 	socket.on('startGame', function(){
 		if(players.length>1){
-			for (var i=0; i<players.length; ++i){
+			for (var i=0; i<2; ++i){
 				keys[socket.id]=0;
 				positions[players[i]]={x : Math.round(Math.random()*24),y : Math.round(Math.random()*59), d : Math.round(Math.random()*3)};
 			}
@@ -53,7 +53,7 @@ io.on('connection', function(socket){
 	
 function mainloop(){
 	if(!playing) return;
-	for(var i=0; i<players.length();++i){
+	for(var i=0; i<2;++i){
 		var id_play=players[i];
 
 		//moure players
@@ -86,13 +86,37 @@ function mainloop(){
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 20};
 			bullets.push(new_bullet);
 		}
-		for(var i=0; )
-
-	
+		//mou bales
+		for(var i=0; i<bullets.length; ++i){
+			bullets[i].t--;
+			if(bullets[i].t==0) delete bullets[i];
+		}
 	}
+	//enviar estat
+	var obj = {positions_players: positions, positions_bullets: bullets};
+	io.emit('updateGame', obj);
+
+	//colisions
+	for(var i=0; i<bullets.length;++i){
+		for(var j=0; j<2; ++j){
+			var id_play=players[j];
+			if(bullets[i].x==positions[id_play].x && bullets[i].y==positions[id_play].y){
+				//player dead
+				io.emit('playerDead', id_play);
+				playing=false;
+			}
+		}
+	}
+
+	//vector tecles premudes a res
+	for(var i=0; i<2; ++i){
+		id_play=players[i];
+		keys[id_play] = 0;
+	}
+
+	//canviar si es mou el jugador o no
 	if(players_actions) players_actions=false;
 	else players_actions=true;
-
 }
 
 setInterval(mainloop,100);
