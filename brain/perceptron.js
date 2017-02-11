@@ -1,3 +1,9 @@
+var synaptic = require('synaptic'); // this line is not needed in the browser
+var Neuron = synaptic.Neuron,
+    Layer = synaptic.Layer,
+    Network = synaptic.Network,
+    Trainer = synaptic.Trainer,
+    Architect = synaptic.Architect;
 function Perceptron(input, hidden, output)
 {
     // create the layers
@@ -46,7 +52,7 @@ function outputToAction(output) {
 }
 
 function trainNet(playerid, input, action){
-  if( not existPlayer(playerid)){
+  if( ! existPlayer(playerid)){
     console.console.log("playerid not in netDict");
   }
   netDict[playerid].activate(input);
@@ -60,7 +66,7 @@ function actionToOutput(action) {
 }
 
 function getAction(playerid, input){
-  if( not existPlayer(playerid) ){
+  if( ! existPlayer(playerid) ){
     console.console.log("playerid not in netDict");
   }
   outputLayer = netDict[playerid].activate(input);
