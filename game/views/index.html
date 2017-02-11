@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="Wolf.css"/>
+		<title>Template</title>
+	</head>
+	<body>
+
+		<div id="page">
+		</div>
+
+		<!-- Js -->
+	    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	    <script>
+		
+		//init
+		var socket = io();
+		
+		//io functions
+		//sent to server
+		socket.emit('Hello','');
+		
+		//recive from server
+		socket.on('Hello', function(obj){
+			$("#page").html("Hello");
+		});
+		
+    </script>
+	</body>
+</html>
