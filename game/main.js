@@ -39,7 +39,6 @@ io.on('connection', function(socket){
 		players.splice(index, 1);
 	});
 	socket.on('keyPressed', function(msg){
-		console.log('keyPressed' + msg)
 		keys[socket.id]=msg;
 	});
 	socket.on('startGame', function(){
@@ -47,7 +46,6 @@ io.on('connection', function(socket){
 			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
 				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3)};
-				//console.log('Comença la partida');
 			}
 			playing = true;
 		}
@@ -92,10 +90,8 @@ function mainloop(){
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 20};
 			bullets.push(new_bullet);
 		}
-		//console.log(i);
 	}
 
-	//console.log("fora loop")
 	//mou bales
 	for(var i=0; i<bullets.length; ++i){
 		bullets[i].t--;
@@ -111,7 +107,6 @@ function mainloop(){
 	//enviar estat
 	var obj = {positions_players: positions, positions_bullets: bullets};
 	io.emit('updateGame', obj);
-	//console.log('Envio estat');
 
 	//colisions
 	for(var i=0; i<bullets.length;++i){
@@ -131,4 +126,3 @@ function mainloop(){
 }
 
 setInterval(mainloop,100);
-//console.log('acaba');

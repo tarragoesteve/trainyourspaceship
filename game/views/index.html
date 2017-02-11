@@ -50,7 +50,6 @@
 
      		//print player
 			function printPlayer(player) {
-				console.log(player);
 				ctx.fillStyle = player.color;
 				if (player.dir==1){
 					ctx.fillRect(20*player.posx,20*player.posy, 10, 20);
@@ -73,7 +72,6 @@
 
 			//print bullet
 			function printBullet(bullet) {
-				console.log(bullet);
 				
 				ctx.beginPath();
 				ctx.arc(20*bullet.posbx+10,20*bullet.posby+10, 5, 0, 2*Math.PI);
@@ -114,7 +112,6 @@
 				}
 			printPlayer(player);
 			}
-			console.log(pos_bullets);
 			for(var i=0; i<pos_bullets.lenght; ++i){
 				bullet = {posbx: pos_bullets.x, posby: pos_bullets.y};
 				printBullet(bullet);
