@@ -45,6 +45,7 @@ io.on('connection', function(socket){
 			for (var i=0; i<2; ++i){
 				keys[socket.id]=0;
 				positions[players[i]]={x : Math.round(Math.random()*24),y : Math.round(Math.random()*59), d : Math.round(Math.random()*3)};
+				console.log('Comença la partida');
 			}
 			playing = true;
 		}

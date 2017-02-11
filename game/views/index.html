@@ -11,20 +11,40 @@
 	}
 	</style>
 
-	<body background="img/6946579-space-stars-background.jpg">
+	<body background="/img/6946579-space-stars-background.jpg">
 		
 		<h2 style="color:chartreuse;text-align:center;">Train your Spaceship</h1>
 		<h3 style="color:blueviolet;text-align:center;">MILKY WAY</h2>
-	
-		<div style="margin:auto;width:1200px;">
-			<canvas id="screengame" width=1200 height=500 style="border:1px solid #000000; ">
-			</canvas>
+		<div style="overflow: hidden">
+			<div style="margin:auto;width:1200px;float:left;">
+				<canvas id="screengame" width=1200 height=500 style="border:1px solid #000000; ">
+				</canvas>
+			</div>
+			<div style="float:left;margin:30px;">
+				<button type="button" onclick=startGame()>Start</button>
+					
+			</div>
 		</div>
+		
 
 		<!-- Js -->
 	    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	    <script>
+			//Pres keys
+			document.addEventListener('keydown', function(event) {
+
+				if (String.fromCharCode(event.keyCode) == 'A') {
+					io.emit('keyPressed', 1);
+				}
+				else if (String.fromCharCode(event.keyCode) == 'D') {
+					io.emit('keyPressed', 2);
+				}
+				else if (String.fromCharCode(event.keyCode) == 'W') {
+					io.emit('keyPressed', 3);
+				}
+			}, true);
+
 			//aux functions
 
 			//print player
@@ -76,15 +96,25 @@
 			printPlayer(player);
 			printBullet(bullet);
 
+			
+
+
+
+
+
 
 		
 		
 		//init
-		//var socket = io();
+		var socket = io();
 		
 		//io functions
 		//sent to server
 		//socket.emit('Hello','');
+
+		function startGame() {
+			socket.emit('startGame','')
+		}
 		
 		/*socket.on('Hello', function(obj){
 			$("#page").html("Hello");
