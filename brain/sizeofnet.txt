@@ -1,0 +1,38 @@
+Our sample size is 10 * training time
+which is maximum N min  so N * 60 * 10 = N * 600  for each bot.
+The output are the four possible actions (None, Left, Right, Fire).
+Directions:
+  00: N
+  01: E
+  10: S
+  11: W
+Relative distance:
+  x, y
+The input defined as a the following:
+Your status (2 nodes):
+  Direction
+Enemy status(4 nodes):
+  Relative distance
+  Direction
+Nearest bullet(5 nodes)
+  Presence
+  Relative distance
+  Direction
+2n Nearest bullet(5 nodes)
+  Presence
+  Relative distance
+  Direction
+
+Total input nodes : 16 nodes
+
+With one hidden layer the number of weights is
+Input * C1 + C1 * Output
+
+With two layers
+Input * C1 + C1 * C2 + C2 * output
+
+The sample size should be 30 times the number of weights.
+so I * C1 + C1 * O = N * 600 / 30
+
+(16 + 4) * C1 = N * 20
+C1 = N
