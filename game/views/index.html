@@ -2,17 +2,34 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="Wolf.css"/>
-		<title>Template</title>
+		<title>TRAIN your Spaceship</title>
+		
 	</head>
-	<body>
+	<style>
+	body {
+			background-color:black;
 
-		<div id="page">
+	}
+	</style>
+
+	<body background="img/6946579-space-stars-background.jpg">
+		
+		<h2 style="color:chartreuse;text-align:center;">Train your Spaceship</h1>
+		<h3 style="color:blueviolet;text-align:center;">MILKY WAY</h2>
+	
+		<div style="margin:auto;width:1200px;">
+			<canvas id="screengame" width=1200 height=500 style="border:1px solid #000000; ">
+			</canvas>
 		</div>
 
 		<!-- Js -->
 	    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	    <script>
+			var uo = document.getElementById("screengame");
+			var ctx = uo.getContext("2d");
+			ctx.fillStyle = "blue";
+			ctx.fillRect(0, 0, uo.width, uo.height);
 		
 		//init
 		var socket = io();
@@ -26,6 +43,7 @@
 			$("#page").html("Hello");
 		});
 		
-    </script>
+    	</script>
+			
 	</body>
 </html>
