@@ -21,11 +21,8 @@ function Perceptron(input, hidden, output)
 Perceptron.prototype = new Network();
 Perceptron.prototype.constructor = Perceptron;
 
-
-//
-var myPerceptron = new Perceptron(16,5,4);
-
-var netDict;
+//Dictionari to store networks
+var netDict = [];
 
 function existPlayer(playerid) {
   return (playerid in netDict);
@@ -63,9 +60,15 @@ function actionToOutput(action) {
 }
 
 function getAction(playerid, input){
-  if( not existPlayer(playerid)){
+  if( not existPlayer(playerid) ){
     console.console.log("playerid not in netDict");
   }
   outputLayer = netDict[playerid].activate(input);
   return outputToAction(outputLayer);
 }
+
+//exports
+exports.existPlayer = existPlayer;
+exports.createPlayer = createPlayer;
+exports.getAction = getAction;
+exports.trainNet = trainNet;
