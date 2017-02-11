@@ -103,20 +103,20 @@
 			var pos_players=msg.positions_players;
 			var pos_bullets = msg.positions_bullets;
 
-			var player;
+			var player = [];
 			var bullet;
 			for(var i in pos_players){
 				if(i==id){
-					player = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'black'};
+					player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'black'};
 				}
 				else{
-					player = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'green'};
+					player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'green'};
 				}
-			printPlayer(player);
+				printPlayer(player[i]);
 			}
 			console.log(pos_bullets);
 			for(var i=0; i<pos_bullets.lenght; ++i){
-				bullet = {posbx: pos_bullets.x, posby: pos_bullets.y};
+				bullet = {posbx: pos_bullets[i].x, posby: pos_bullets[i].y};
 				printBullet(bullet);
 			}
 		});
