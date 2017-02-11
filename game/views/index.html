@@ -102,7 +102,7 @@
 			var pos_bullets = msg.positions_bullets;
 
 			var player = [];
-			var bullet;
+			var bullet = [];
 			for(var i in pos_players){
 				if(i==id){
 					player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'black'};
@@ -113,8 +113,8 @@
 				printPlayer(player[i]);
 			}
 			for(var i=0; i<pos_bullets.lenght; ++i){
-				bullet = {posbx: pos_bullets[i].x, posby: pos_bullets[i].y};
-				printBullet(bullet);
+				bullet[i] = {posbx: pos_bullets[i].x, posby: pos_bullets[i].y};
+				printBullet(bullet[i]);
 			}
 		});
     	</script>
