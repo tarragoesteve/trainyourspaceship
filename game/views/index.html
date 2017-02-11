@@ -72,7 +72,7 @@
 
 			//print bullet
 			function printBullet(bullet) {
-				
+				console.log('entra bullet');
 				ctx.beginPath();
 				ctx.arc(20*bullet.posbx+10,20*bullet.posby+10, 5, 0, 2*Math.PI);
 				ctx.fillStyle='red'
@@ -112,7 +112,7 @@
 				}
 				printPlayer(player[i]);
 			}
-			for(var i=0; i<pos_bullets.lenght; ++i){
+			for(var i=0; i<pos_bullets.length; ++i){
 				bullet[i] = {posbx: pos_bullets[i].x, posby: pos_bullets[i].y};
 				printBullet(bullet[i]);
 			}
