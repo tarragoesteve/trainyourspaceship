@@ -69,10 +69,12 @@ function mainloop(){
 				else if(positions[id_play].d==3) positions[id_play].x--;
 			}
 			else if(keys[id_play]==1){//gir esquerra
+				keys[id_play] = 0;
 				positions[id_play].d--;
 				if(positions[id_play].d==-1) positions[id_play].d=3;
 			}
 			else if(keys[id_play]==2){//gir dreta
+				keys[id_play] = 0;
 				positions[id_play].d++;
 				if(positions[id_play].d==4) positions[id_play].d=0;
 			}
@@ -85,6 +87,7 @@ function mainloop(){
 
 		//disparar i tractar bales
 		if(keys[id_play]==3){
+			keys[id_play] = 0;
 			var player_position = positions[id_play];
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 20};
 			bullets.push(new_bullet);
@@ -92,12 +95,6 @@ function mainloop(){
 		//console.log(i);
 	}
 
-	//vector tecles premudes a res
-	for(var i=0; i<2; ++i){
-		id_play=players[i];
-		keys[id_play] = 0;
-	}
-	
 	//console.log("fora loop")
 	//mou bales
 	for(var i=0; i<bullets.length; ++i){
