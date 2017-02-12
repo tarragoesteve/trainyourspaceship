@@ -51,57 +51,71 @@
 		left: 40%;
 		font-size: 30px;
 	}
-	.startButton {
-		background-color: #4CAF50; /* Green */
-		border: none;
-		color: white;
+	#button1 {
+		background-color: white; 
+		color: black; 
+		border: 2px solid #4CAF50;
 		padding: 16px 32px;
 		text-align: center;
 		text-decoration: none;
-		display: inline;
 		font-size: 16px;
-		margin: 4px;
 		width: 200px;
+		top: 1000;
+		margin-left: 300px;
+		left: 200px;
 		-webkit-transition-duration: 0.4s; /* Safari */
 		transition-duration: 0.4s;
 		cursor: pointer;
 	}
 
-	.startButton:hover {
-		cursor: pointer
-	}
-
-	.button1 {
-		background-color: white; 
-		color: black; 
-		border: 2px solid #4CAF50;
-	}
-
-	.button1:hover {
+	#button1:hover {
 		background-color: #4CAF50;
 		color: white;
+		cursor: pointer
+		
 	}
 
-	.button2 {
+	#button2 {
 		background-color: white; 
 		color: black; 
 		border: 2px solid #008CBA;
+		padding: 16px 32px;
+		text-align: center;
+		text-decoration: none;
+		font-size: 16px;
+		width: 200px;
+		top: 1000;
+		margin-left: 50px;
+		-webkit-transition-duration: 0.4s; /* Safari */
+		transition-duration: 0.4s;
+		cursor: pointer;
 	}
 
-	.button2:hover {
+	#button2:hover {
 		background-color: #008CBA;
 		color: white;
+		cursor: pointer
 	}
 
-	.button3 {
+	#button3 {
 		background-color: white; 
 		color: black; 
 		border: 2px solid #f44336;
+		padding: 16px 32px;
+		text-align: center;
+		text-decoration: none;
+		font-size: 16px;
+		width: 200px;
+		margin-left: 50px;
+		-webkit-transition-duration: 0.4s; /* Safari */
+		transition-duration: 0.4s;
+		cursor: pointer;
 	}
 
-	.button3:hover {
+	#button3:hover {
 		background-color: #f44336;
 		color: white;
+		cursor: pointer
 	}
 
 	</style>
@@ -110,13 +124,12 @@
 
 		<h1 style="color:chartreuse;text-align:center;">Train your Spaceship</h1>
 		<h2 style="color:blueviolet;text-align:center;">MILKY WAY</h2>
-		<div style:"float:right;">
-			<h4 id="points1" style="color: white;display: inline">Your points: <strong id="cpl1">0</strong> ---- </h4>
-			<h4 id = "points2" style="color: white;display: inline">Enemy points: <strong id="cpl2">0</strong></h4>
-			
-		</div>
-		<h4 id="points1" style="color: white">Your points: <strong id="cpl1">0</strong> ---- Enemy points: <strong id="cpl2">0</strong></h4>
+		<div>
+			<h4 id="points1" style="color: white; display: inline">Your points: <strong id="cpl1">0</strong> ---- Enemy points: <strong id="cpl2">0</strong></h4>
+			<h4 id="Lifes1" style="color:deeppink; display: inline; text-align:right">YOUR LIFES: <strong id="lif1">0</strong> </h4>
 
+		</div>
+		
 		<h2 id="enunciatBut" style="color: white;display: inline"> Choose your ship style! </strong></h2>
 		<div style:"float:right;">
 		</div>
@@ -131,13 +144,10 @@
 					<button id = "MGB" type="button" onclick=chooseMG()> Machine Gun </button> <br>
 				</div>
 			</div>
-			<div style="float:left;margin-left:10%;overflow: hidden;">
-
-					<button id="button1" type="button" onclick=start0Bot()> 2 players </button> <br>
-					<button id="button2" type="button" onclick=start1Bot()> 1 player </button> <br>
-					<button id="button3" type="button" onclick=start2Bot()> Bots time! </button> <br>
-
-
+			<div style="float:left;width=1600px; heigh= 300px;">
+					<button id="button1" type="button" onclick=start0Bot()> 2 players </button> 
+					<button id="button2" type="button" onclick=start1Bot()> 1 player </button>
+					<button id="button3" type="button" onclick=start2Bot()> Bots time! </button>
 			</div>
 		</div>
 
@@ -224,6 +234,7 @@
 				uo.style.visibility = 'visible';
 				document.getElementById("enunciatBut").style.visibility = "hidden";
 				document.getElementById("points1").style.visibility= 'visible';
+				document.getElementById("Lifes1").style.visibility= 'visible';
 			});
 			//start Game
 			function start0Bot() {
@@ -247,6 +258,7 @@
 			document.getElementById("TSPB").style.backgroundColor = 'rgba(255,255,255,0)';
 			document.getElementById("MGB").style.backgroundColor = 'rgba(255,255,255,0)';
 			document.getElementById("points1").style.visibility= 'hidden';
+			document.getElementById("Lifes1").style.visibility= 'hidden';
 			
 
 			//update game
