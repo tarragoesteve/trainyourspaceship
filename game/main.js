@@ -29,6 +29,7 @@ var players=[];
 var keys={};
 var positions={};
 var bullets=[];
+var player_types = {};
 
 var playing = false;
 var players_actions = true;
@@ -56,6 +57,10 @@ io.on('connection', function(socket){
 	socket.on('keyPressed', function(msg){
 		keys[socket.id]=msg;
 	});
+	socket.on('playerType', function(msg){
+		player_types[socket.id] = msg;
+	});
+
 	socket.on('startGame', function(aiPlayers){
 		io.emit('canvasVisible', '');
 		bullets=[];
@@ -80,7 +85,8 @@ io.on('connection', function(socket){
 		if(players.length>1){
 			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
-				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 3, type: aiPlayers.ship_type};
+				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 3};
+				if(player_types == 1) positions[players[i]].life += 2;
 			}
 			playing = true;
 		}
@@ -135,6 +141,7 @@ function mainloop() {
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 30};
 			bullets.push(new_bullet);
 			positions[id_play].bull=10;
+			if(player_types ==3) positions[id_play].bull=5;
 		}
 
 	}
