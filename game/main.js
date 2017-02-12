@@ -156,7 +156,8 @@ function mainloop() {
 			var id_play=players[j];
 			if(bullets[i].x==positions[id_play].x && bullets[i].y==positions[id_play].y){
 				//player dead
-				io.emit('playerDead', id_play);
+				var obj={id: id_play, pos_x: positions[id_play].x, pos_y: positions[id_play].y};
+				io.emit('playerDead',obj);
 				playing=false;
 			}
 		}

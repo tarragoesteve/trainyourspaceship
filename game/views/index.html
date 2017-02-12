@@ -121,12 +121,59 @@
 			});
 
 			//death
+			var exploding=true;
 			socket.on('playerDead', function(msg){
-				var id = socket.io.engine.id;
+				var id_dead = msg.id;
+
+				var spriteWidth=2048;
+				var spriteHeight = 1536;
+
+				var rows = 6;
+				var cols = 8;
+
+				var width = spriteWidth/cols;
+				var height = spriteHeight/rows;
+
+				var curFrame=0;
+				var frameCount = 47; 
+
+				var x= msg.pos_x;
+				var y= msg.pos_y;
+
+				var srcX=0;
+				var srcY=0;
+
+				var speed=12;
+
+				var bomb = new Image();
+				bomb.src = "img/explosion.png";
+
+				function updateFrame(){
+					curFrame=++curFrame;
+					srcX = curFrame % cols;
+					srcY = curFrame / cols;
+					if(curFrame>frameCount) exploding=false;
+				}
+
+				function draw(){
+					updateFrame();
+					ctx.drawImage(bomb, srcX, srcY, width, height,x,y,width,height);
+				}
+				//if(!exploding) return;
+				setInterval(draw, 100);
+				/*var canvas=document.querySelector("#screengame");
+				var context = canvas.getContext("2d");
+
+				var BombSprite = new Image();
+				BombSprite.src="img/explosion.png";*/
+
+				
+				/*var id = socket.io.engine.id;
 				var bombImage = new Image();
 				bombImage.src = "img/explosion.png";
-				io.emit('playerDead', id_play);
+				io.emit('playerDead', id_play);*/
 			});
+
     	</script>
 
 	</body>
