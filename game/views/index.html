@@ -117,6 +117,14 @@
 				printBullet(bullet[i]);
 			}
 		});
+
+		//death
+		socket.on('playerDead', function(msg){
+			var id = socket.io.engine.id;
+			var bombImage = new Image();
+			bombImage.src = "img/explosion.png";
+			io.emit('playerDead', id_play);
+		});
     	</script>
 			
 	</body>
