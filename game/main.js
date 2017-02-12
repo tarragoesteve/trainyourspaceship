@@ -57,7 +57,7 @@ io.on('connection', function(socket){
 		keys[socket.id]=msg;
 	});
 	socket.on('startGame', function(aiPlayers){
-
+		io.emit('canvasVisible', '');
 		bullets=[];
 
 		if(aiPlayers != "" && aiPlayers != 'none') {
