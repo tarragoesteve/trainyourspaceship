@@ -164,16 +164,19 @@
 			});
 			//start Game
 			function start0Bot() {
-				socket.emit('startGame','none');
+				var obj={type: 'none', ship_type: person};
+				socket.emit('startGame',obj);
 
 			}
 
 			function start1Bot(){
-				socket.emit('startGame','solo');
+				var obj={type: 'solo', ship_type: person};
+				socket.emit('startGame',obj);
 			}
 
 			function start2Bot() {
-				socket.emit('startGame','all');
+				var obj={type: 'all', ship_type: person};
+				socket.emit('startGame',obj);
 			}
 
 			//canvas

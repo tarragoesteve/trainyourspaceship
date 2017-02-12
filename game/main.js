@@ -60,10 +60,10 @@ io.on('connection', function(socket){
 		io.emit('canvasVisible', '');
 		bullets=[];
 
-		if(aiPlayers != "" && aiPlayers != 'none') {
+		if(aiPlayers.type != "" && aiPlayers.type != 'none') {
 			for(i in players) {
 				var id_play = players[i];
-				if(aiPlayers == 'all' || id_play != socket.id) {
+				if(aiPlayers.type == 'all' || id_play != socket.id) {
 					player_Ai[id_play] = true;
 					network.startTraining(id_play);
 				}
