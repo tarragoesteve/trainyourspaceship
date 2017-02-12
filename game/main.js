@@ -91,7 +91,7 @@ function mainloop() {
 	if(!playing) return;
 	for(var i=0; i<2;++i){
 		var id_play=players[i];
-		//if(positions[id_play].bull!=0) positions[id_play].bull--;
+		if(positions[id_play].bull!=0) positions[id_play].bull--;
 		//moure players
 		if(players_actions){
 
