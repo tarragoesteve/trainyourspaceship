@@ -73,7 +73,7 @@ io.on('connection', function(socket){
 		if(players.length>1){
 			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
-				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3)};
+				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0};
 			}
 			playing = true;
 		}
@@ -84,6 +84,7 @@ function mainloop() {
 	if(!playing) return;
 	for(var i=0; i<2;++i){
 		var id_play=players[i];
+		if(positions[id_play].bull!=0) positions[id_play].bull--;
 		//moure players
 		if(players_actions){
 
@@ -121,11 +122,12 @@ function mainloop() {
 		}
 
 		//disparar i tractar bales
-		if(keys[id_play]==3){
+		if(keys[id_play]==3 && positions[id_play].bull==0){
 			keys[id_play] = 0;
 			var player_position = positions[id_play];
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 30};
 			bullets.push(new_bullet);
+			positions[id_play].bull=10;
 		}
 
 	}
