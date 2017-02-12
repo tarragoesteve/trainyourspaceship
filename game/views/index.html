@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>TRAIN your Spaceship</title>
-		
+
 	</head>
 	<style>
 	body {
@@ -12,7 +12,7 @@
 	</style>
 
 	<body background="/img/6946579-space-stars-background.jpg">
-		
+
 		<h2 style="color:chartreuse;text-align:center;">Train your Spaceship</h1>
 		<h3 style="color:blueviolet;text-align:center;">MILKY WAY</h2>
 		<div style="overflow: hidden">
@@ -21,16 +21,20 @@
 				</canvas>
 			</div>
 			<div style="float:left;margin:30px;">
-				<button type="button" onclick=startGame()>Start</button>
-					
+				<div style="float:none;">
+					<button type="button" onclick=start0Bot()> 2 players </button> <br>
+					<button type="button" onclick=start1Bot()> 1 player </button> <br>
+					<button type="button" onclick=start2Bot()> Bots time! </button> <br>
+				</div>
+
 			</div>
 		</div>
-		
+
 
 		<!-- Js -->
 	    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-	    <script>	
+	    <script>
 			//init
 			var socket = io();
 
@@ -48,7 +52,7 @@
 				}
 			}, true);
 
-     		//print player
+			//print player
 			function printPlayer(player) {
 				ctx.fillStyle = player.color;
 				if (player.dir==1){
@@ -59,15 +63,15 @@
 					ctx.fillRect(20*player.posx+5,20*player.posy, 10, 10);
 				} else if (player.dir==2){
 					ctx.fillRect(20*player.posx,20*player.posy, 20, 10);
-					ctx.fillRect(20*player.posx+5,20*player.posy+10, 10, 10);					
+					ctx.fillRect(20*player.posx+5,20*player.posy+10, 10, 10);
 				} else if (player.dir==3){
 					ctx.fillRect(20*player.posx+10,20*player.posy, 10, 20);
 					ctx.fillRect(20*player.posx,20*player.posy+5, 10, 10);
-				
+
 				} else {
 					console.log("your are a noob");
 				}
-					
+
 			}
 
 			//print bullet
@@ -77,47 +81,63 @@
 				ctx.arc(20*bullet.posbx+10,20*bullet.posby+10, 5, 0, 2*Math.PI);
 				ctx.fillStyle='red'
 				ctx.fill();
-				ctx.stroke();		
+				ctx.stroke();
 			}
 
-		//start Game	
-		function startGame() {
-			socket.emit('startGame','')
-		}
+			//start Game
+			function start0Bot() {
+				socket.emit('startGame','none')
+			}
 
-		//canvas
-		var uo = document.getElementById("screengame");
-		var ctx = uo.getContext("2d");
-		ctx.fillStyle = "rgba(255,255,255,1)";
-		ctx.fillRect(0, 0, uo.width, uo.height);
-		
-		//update game
-		socket.on('updateGame', function(msg){
-			console.log(msg);
-			ctx.clearRect(0, 0, uo.width, uo.height);
-			ctx.fillStyle = "rgba(255,255,255,0.5)";
+			function start1Bot(){
+				socket.emit('startGame','solo')
+			}
+
+			function start2Bot() {
+				socket.emit('startGame','all')
+			}
+
+			//canvas
+			var uo = document.getElementById("screengame");
+			var ctx = uo.getContext("2d");
+			ctx.fillStyle = "rgba(255,255,255,1)";
 			ctx.fillRect(0, 0, uo.width, uo.height);
-			var id = socket.io.engine.id;
-			var pos_players=msg.positions_players;
-			var pos_bullets = msg.positions_bullets;
 
-			var player = [];
-			var bullet = [];
-			for(var i in pos_players){
-				if(i==id){
-					player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'black'};
+			//update game
+			socket.on('updateGame', function(msg){
+				console.log(msg);
+				ctx.clearRect(0, 0, uo.width, uo.height);
+				ctx.fillStyle = "rgba(255,255,255,0.5)";
+				ctx.fillRect(0, 0, uo.width, uo.height);
+				var id = socket.io.engine.id;
+				var pos_players=msg.positions_players;
+				var pos_bullets = msg.positions_bullets;
+
+				var player = [];
+				var bullet = [];
+				for(var i in pos_players){
+					if(i==id){
+						player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'black'};
+					}
+					else{
+						player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'green'};
+					}
+					printPlayer(player[i]);
 				}
-				else{
-					player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'green'};
+				for(var i=0; i<pos_bullets.length; ++i){
+					bullet[i] = {posbx: pos_bullets[i].x, posby: pos_bullets[i].y};
+					printBullet(bullet[i]);
 				}
-				printPlayer(player[i]);
-			}
-			for(var i=0; i<pos_bullets.length; ++i){
-				bullet[i] = {posbx: pos_bullets[i].x, posby: pos_bullets[i].y};
-				printBullet(bullet[i]);
-			}
-		});
+			});
+
+			//death
+			socket.on('playerDead', function(msg){
+				var id = socket.io.engine.id;
+				var bombImage = new Image();
+				bombImage.src = "img/explosion.png";
+				io.emit('playerDead', id_play);
+			});
     	</script>
-			
+
 	</body>
 </html>
