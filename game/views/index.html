@@ -17,7 +17,6 @@
 		border-radius: 5px;
 		color:white;
 		font-size: 20px;
-		background: rgba(255,255,255,0);
 	}
 	#TSPB{
 		position: absolute;
@@ -28,7 +27,6 @@
 		border-radius: 5px;
 		color:white;
 		font-size: 20px;
-		background: rgba(255,255,255,0);
 	}
 	#MGB{
 		position: absolute;
@@ -39,7 +37,6 @@
 		border-radius: 5px;
 		font-size: 20px;
 		color:white;
-		background: rgba(255,255,255,0);
 	}
 
 	</style>
@@ -94,15 +91,25 @@
 			function chooseTanky(){
 				person=0;
 				uo.getElementById("tankyB").style.backgroundColor = rgba(255,255,255,0.5);
+				uo.getElementById("TSPB").style.backgroundColor = rgba(255,255,255,0);
+				uo.getElementById("MGB").style.backgroundColor = rgba(255,255,255,0);
 			}
 
 			function chooseTwoSP(){
 				person=1;
+				uo.getElementById("TSPB").style.backgroundColor = rgba(255,255,255,0.5);
+				uo.getElementById("tankyB").style.backgroundColor = rgba(255,255,255,0);
+				uo.getElementById("MGB").style.backgroundColor = rgba(255,255,255,0);
 			}
 
 			function chooseMG(){
 				person=2;
+				uo.getElementById("MGB").style.backgroundColor = rgba(255,255,255,0.5);
+				uo.getElementById("tankyB").style.backgroundColor = rgba(255,255,255,0);
+				uo.getElementById("TSPB").style.backgroundColor = rgba(255,255,255,0);
 			}
+
+
 			//print player
 			function printPlayer(player) {
 				ctx.fillStyle = player.color;
@@ -165,6 +172,9 @@
 			var uo = document.getElementById("screengame");
 			var ctx = uo.getContext("2d");
 			uo.style.visibility = 'hidden';
+			uo.getElementById("tankyB").style.backgroundColor = rgba(255,255,255,0);
+			uo.getElementById("TSPB").style.backgroundColor = rgba(255,255,255,0);
+			uo.getElementById("MGB").style.backgroundColor = rgba(255,255,255,0);
 
 			//update game
 			socket.on('updateGame', function(msg){
