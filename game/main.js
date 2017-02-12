@@ -65,10 +65,10 @@ io.on('connection', function(socket){
 		io.emit('canvasVisible', '');
 		bullets=[];
 
-		if(aiPlayers.type != "" && aiPlayers.type != 'none') {
+		if(aiPlayers != "" && aiPlayers != 'none') {
 			for(i in players) {
 				var id_play = players[i];
-				if(aiPlayers.type == 'all' || id_play != socket.id) {
+				if(aiPlayers == 'all' || id_play != socket.id) {
 					player_Ai[id_play] = true;
 					network.startTraining(id_play);
 				}
@@ -83,7 +83,7 @@ io.on('connection', function(socket){
 		}
 
 		if(players.length>1){
-			for (var i=players.length - 2; i<players.length; ++i){
+			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
 				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 3};
 				if(player_types == 1) positions[players[i]].life += 2;
@@ -95,7 +95,7 @@ io.on('connection', function(socket){
 
 function mainloop() {
 	if(!playing) return;
-	for (var i=players.length - 2; i<players.length; ++i){
+	for(var i=0; i<2;++i){
 		var id_play=players[i];
 		if(positions[id_play].bull!=0) positions[id_play].bull--;
 		//moure players
