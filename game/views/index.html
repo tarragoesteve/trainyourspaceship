@@ -106,7 +106,7 @@
 			socket.on('updateGame', function(msg){
 				console.log(msg);
 				ctx.clearRect(0, 0, uo.width, uo.height);
-				ctx.fillStyle = "rgba(255,255,255,0.5)";
+				ctx.fillStyle = "rgba(255,255,255,0.3)";
 				ctx.fillRect(0, 0, uo.width, uo.height);
 				var id = socket.io.engine.id;
 				var pos_players=msg.positions_players;
@@ -169,7 +169,7 @@
 					if(exploding) {
 						updateFrame();
 						ctx.clearRect(0, 0, uo.width, uo.height);
-						ctx.fillStyle = "rgba(255,255,255,0.5)";
+						ctx.fillStyle = "rgba(255,255,255,0.3)";
 						ctx.fillRect(0, 0, uo.width, uo.height);
 						console.log(srcX);
 						console.log(srcY);
@@ -178,7 +178,7 @@
 				}
 				setInterval(draw, 50);
 				ctx.clearRect(0, 0, uo.width, uo.height);
-				ctx.fillStyle = "rgba(255,255,255,0.5)";
+				ctx.fillStyle = "rgba(255,255,255,0.3)";
 			});
 
     	</script>

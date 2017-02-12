@@ -73,7 +73,7 @@ io.on('connection', function(socket){
 		if(players.length>1){
 			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
-				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0};
+				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 3};
 			}
 			playing = true;
 		}
@@ -159,10 +159,14 @@ function mainloop() {
 		for(var j=0; j<2; ++j){
 			var id_play=players[j];
 			if(bullets[i].x==positions[id_play].x && bullets[i].y==positions[id_play].y){
-				//player dead
-				var obj={id: id_play, pos_x: positions[id_play].x, pos_y: positions[id_play].y};
-				io.emit('playerDead',obj);
-				playing=false;
+				//still alife?
+				positions[id_play].life--;
+				if(positions[id_play].life==0){
+					//player dead
+					var obj={id: id_play, pos_x: positions[id_play].x, pos_y: positions[id_play].y};
+					io.emit('playerDead',obj);
+					playing=false;
+				}
 			}
 		}
 	}
