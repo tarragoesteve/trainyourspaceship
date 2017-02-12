@@ -51,6 +51,7 @@ io.on('connection', function(socket){
 		keys[socket.id]=msg;
 	});
 	socket.on('startGame', function(aiPlayers){
+
 		if(aiPlayers != "" && aiPlayers != 'none') {
 			for(i in players) {
 				var id_play = players[i];
