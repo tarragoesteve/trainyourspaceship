@@ -38,17 +38,23 @@
 		font-size: 20px;
 		color:white;
 	}
+	#enunciatBut{
+		position: absolute;
+		top:150px;
+		left: 40%;
+		font-size: 30px;
+	}
 
 	</style>
 
 	<body background="/img/6946579-space-stars-background.jpg">
 
-		<h2 style="color:chartreuse;text-align:center;">Train your Spaceship</h1>
-		<h3 style="color:blueviolet;text-align:center;">MILKY WAY</h2>
+		<h1 style="color:chartreuse;text-align:center;">Train your Spaceship</h1>
+		<h2 style="color:blueviolet;text-align:center;">MILKY WAY</h2>
 		
-		<h4 style="color: white;display: inline">Your points: <strong id="cpl1">0</strong> ---- </h4>
-		<h4 style="color: white;display: inline">Enemy points: <strong id="cpl2">0</strong></h4>
-		
+		<h4 id="points1" style="color: white;display: inline">Your points: <strong id="cpl1">0</strong> ---- </h4>
+		<h4 id = "points2" style="color: white;display: inline">Enemy points: <strong id="cpl2">0</strong></h4>
+		<h2 id="enunciatBut" style="color: white;display: inline"> Choose your ship style! </strong></h2>
 		<div style="overflow: hidden">
 			<div style="margin:auto;width:1200px;float:left;">
 				<canvas id="screengame" width=1200 height=500 style="border:1px solid #000000; ">
@@ -147,29 +153,26 @@
 				ctx.stroke();
 			}
 
-			//start Game
-			function start0Bot() {
+			socket.on('updateGame', function(msg){
 				document.getElementById("tankyB").style.visibility = "hidden";
 				document.getElementById("TSPB").style.visibility = "hidden";
 				document.getElementById("MGB").style.visibility = "hidden";
 				uo.style.visibility = 'visible';
+				document.getElementById("enunciatBut").style.visibility = "hidden";
+				document.getElementById("points1").style.visibility= 'visible';
+				document.getElementById("points2").style.visibility= 'visible';
+			});
+			//start Game
+			function start0Bot() {
 				socket.emit('startGame','none');
 
 			}
 
 			function start1Bot(){
-				document.getElementById("tankyB").style.visibility = "hidden";
-				document.getElementById("TSPB").style.visibility = "hidden";
-				document.getElementById("MGB").style.visibility = "hidden";
-				uo.style.visibility = 'visible';
 				socket.emit('startGame','solo');
 			}
 
 			function start2Bot() {
-				document.getElementById("tankyB").style.visibility = "hidden";
-				document.getElementById("TSPB").style.visibility = "hidden";
-				document.getElementById("MGB").style.visibility = "hidden";
-				uo.style.visibility = 'visible';
 				socket.emit('startGame','all');
 			}
 
@@ -180,6 +183,9 @@
 			document.getElementById("tankyB").style.backgroundColor = 'rgba(255,255,255,0)';
 			document.getElementById("TSPB").style.backgroundColor = 'rgba(255,255,255,0)';
 			document.getElementById("MGB").style.backgroundColor = 'rgba(255,255,255,0)';
+			document.getElementById("points1").style.visibility= 'hidden';
+			document.getElementById("points2").style.visibility= 'hidden';
+			
 
 			//update game
 			socket.on('updateGame', function(msg){
