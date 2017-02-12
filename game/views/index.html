@@ -174,9 +174,11 @@
 						console.log(srcX);
 						console.log(srcY);
 						ctx.drawImage(bomb, srcX*256, srcY*256, width, height,x,y,200,200);
+					}
 				}
-				}
-				if(exploding) setInterval(draw, 50);
+				setInterval(draw, 50);
+				ctx.clearRect(0, 0, uo.width, uo.height);
+				ctx.fillStyle = "rgba(255,255,255,0.5)";
 			});
 
     	</script>
