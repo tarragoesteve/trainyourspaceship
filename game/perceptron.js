@@ -111,7 +111,9 @@ function get_relative_position(obj1, obj2) {
 
 function startTraining(playerId) {
     var trainer = new Trainer(netDict[playerId]);
+    console.log('start training');
     trainer.train(trainingSets[playerId]);
+    console.log('finish training');
 }
 
 exports.startTraining = startTraining;
@@ -208,6 +210,8 @@ function transformState(active_player, player_positions, bullets) {
         //add bullet1
         new_state.push(100);
         new_state.push(100);
+        new_state.push(-1);
+        new_state.push(-1);
 
     }
 
