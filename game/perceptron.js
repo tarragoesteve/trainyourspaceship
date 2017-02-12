@@ -56,7 +56,7 @@ function trainNet(playerid, input, action){
     console.console.log("playerid not in netDict");
   }
   netDict[playerid].activate(input);
-  netDict[playerid].propagate(0.3, actionToOutput(output));
+  netDict[playerid].propagate(0.3, actionToOutput(action));
 }
 
 function actionToOutput(action) {
@@ -84,19 +84,19 @@ function get_relative_position(obj1, obj2) {
     var x;
     var y;
 
-    if(abs(obj1.x - obj2.x) < 30) {
+    if(Math.abs(obj1.x - obj2.x) < 30) {
       x = obj1.x - obj2.x;
     }
     else {
-      x = 60 - abs(obj1.x - obj2.x);
+      x = 60 - Math.abs(obj1.x - obj2.x);
       if(obj1.x - obj2.x > 0) x = -x;
     }
 
-    if(abs(obj1.y - obj2.y) < 13) {
+    if(Math.abs(obj1.y - obj2.y) < 13) {
       y = obj1.y - obj2.y;
     }
     else {
-      y = 25 - abs(obj1.y - obj2.y);
+      y = 25 - Math.abs(obj1.y - obj2.y);
       if(obj1.y - obj2.y > 0) y = -y;
     }
 
@@ -112,10 +112,10 @@ function transformState(active_player, player_positions, bullets) {
     function sortfunction(a, b){
       var pos;
       pos = get_relative_position(a, player1);
-      distanceA = abs(pos.x) + abs(pos.y);
+      distanceA = Math.abs(pos.x) + Math.abs(pos.y);
 
       pos = get_relative_position(b, player1);
-      distanceB = abs(pos.x) + abs(pos.y);
+      distanceB = Math.abs(pos.x) +Math.abs(pos.y);
 
       return distanceA - distanceB;
     }
@@ -123,11 +123,12 @@ function transformState(active_player, player_positions, bullets) {
     var i = 0;
     for(player_position in player_positions) {
         if(i > 1) break;
+        i++;
 
-        if(player_position != active_player) player2 = player_positions[player2];
+        if(player_position != active_player) player2 = player_positions[player_position];
     }
 
-    var new_state = [player1.d%2, player1.d/2];
+    var new_state = [player1.d%2, Math.floor(player1.d/2)];
 
     //addd player2 relative positions
     var pos;
@@ -137,7 +138,7 @@ function transformState(active_player, player_positions, bullets) {
 
     //add player2 direction
     new_state.push(player2.d%2);
-    new_state.push(player2.d/2);
+    new_state.push(Math.floor(player2.d/2));
 
     if(bullets.lenght > 1) {
 
@@ -150,7 +151,7 @@ function transformState(active_player, player_positions, bullets) {
         new_state.push(pos.x);
         new_state.push(pos.y);
         new_state.push(bullets[0].d%2);
-        new_state.push(bullets[0].d/2);
+        new_state.push(Math.floor(bullets[0].d/2));
 
         pos = get_relative_position(player1, bullets[1]);
 
@@ -159,7 +160,7 @@ function transformState(active_player, player_positions, bullets) {
         new_state.push(pos.x);
         new_state.push(pos.y);
         new_state.push(bullets[1].d%2);
-        new_state.push(bullets[1].d/2);
+        new_state.push(Math.floor(bullets[1].d/2));
     }
     else if(bullets.length == 1) {
 
@@ -170,7 +171,7 @@ function transformState(active_player, player_positions, bullets) {
         new_state.push(pos.x);
         new_state.push(pos.y);
         new_state.push(bullets[0].d%2);
-        new_state.push(bullets[0].d/2);
+        new_state.push(Math.floor(bullets[0].d/2));
 
         //add bullet2
         new_state.push(0);
@@ -199,4 +200,4 @@ function transformState(active_player, player_positions, bullets) {
     
 }
 
-exports.transform_state = transformState;
+exports.transformState = transformState;

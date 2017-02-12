@@ -25,7 +25,6 @@ app.get('/', function(req, res){
 });
 
 //IO
-
 var players=[];
 var keys={};
 var positions={};
@@ -38,11 +37,11 @@ var player_Ai = {};
 
 io.on('connection', function(socket){
 
-  if(!(socket.id in players)) {
-    players.push(socket.id);
-    createPlayer(socket.id);
-    player_Ai[socket.id] = false;
-  }
+	if(!(socket.id in players)) {
+		players.push(socket.id);
+		network.createPlayer(socket.id);
+		player_Ai[socket.id] = false;
+	}
   
 	socket.on('disconnect', function(){
 		var index = players.indexOf(socket.id);
@@ -52,7 +51,7 @@ io.on('connection', function(socket){
 		keys[socket.id]=msg;
 	});
 	socket.on('startGame', function(aiPlayers){
-		if(aiPlayers != 'undefined' || aiPlayers != 'none') {
+		if(aiPlayers != "" && aiPlayers != 'none') {
 			for(i in players) {
 				var id_play = players[i];
 				if(aiPlayers == 'all' || id_play != socket.id) {
@@ -164,7 +163,7 @@ function mainloop() {
 	}
 
 	//canviar si es mou el jugador o no
-	players_actions = !player_actions;
+	players_actions = !players_actions;
 }
 
 setInterval(mainloop,100);
