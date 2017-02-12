@@ -78,7 +78,7 @@ io.on('connection', function(socket){
 		}
 
 		if(players.length>1){
-			for (var i=players.length - 2; i<players.length; ++i){
+			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
 				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 3, type: aiPlayers.ship_type};
 			}
@@ -89,7 +89,7 @@ io.on('connection', function(socket){
 
 function mainloop() {
 	if(!playing) return;
-	for (var i=players.length - 2; i<players.length; ++i){
+	for(var i=0; i<2;++i){
 		var id_play=players[i];
 		if(positions[id_play].bull!=0) positions[id_play].bull--;
 		//moure players
