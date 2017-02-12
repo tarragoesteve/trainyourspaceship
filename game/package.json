@@ -7,6 +7,7 @@
     "socket.io": "*",
     "http": "*",
     "ejs": "*",
-    "body-parser" :"*"
+    "body-parser" :"*",
+    "synaptic": "*"
   }
 }
