@@ -89,9 +89,10 @@ function mainloop(){
 		if(keys[id_play]==3){
 			keys[id_play] = 0;
 			var player_position = positions[id_play];
-			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 20};
+			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 30};
 			bullets.push(new_bullet);
 		}
+
 	}
 
 	//mou bales
@@ -105,6 +106,11 @@ function mainloop(){
 		else if(bullets[i].d==1) bullets[i].x++;
 		else if(bullets[i].d==2) bullets[i].y++;
 		else if(bullets[i].d==3) bullets[i].x--;
+
+		if(bullets[i].y>24) bullets[i].y=0;
+		else if(bullets[i].y<0) bullets[i].y=24;
+		if(bullets[i].x>59) bullets[i].x=0;
+		else if(bullets[i].x<0) bullets[i].x=59;
 	}
 
 	//enviar estat
