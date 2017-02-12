@@ -141,6 +141,7 @@ function mainloop() {
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 30};
 			bullets.push(new_bullet);
 			positions[id_play].bull=10;
+			if(player_types ==3) positions[id_play].bull=5;
 		}
 
 	}
