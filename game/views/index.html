@@ -48,7 +48,7 @@
 				}
 			}, true);
 
-     		//print player
+			//print player
 			function printPlayer(player) {
 				ctx.fillStyle = player.color;
 				if (player.dir==1){
@@ -80,51 +80,51 @@
 				ctx.stroke();		
 			}
 
-		//start Game	
-		function startGame() {
-			socket.emit('startGame','')
-		}
+			//start Game	
+			function startGame() {
+				socket.emit('startGame','')
+			}
 
-		//canvas
-		var uo = document.getElementById("screengame");
-		var ctx = uo.getContext("2d");
-		ctx.fillStyle = "rgba(255,255,255,1)";
-		ctx.fillRect(0, 0, uo.width, uo.height);
-		
-		//update game
-		socket.on('updateGame', function(msg){
-			console.log(msg);
-			ctx.clearRect(0, 0, uo.width, uo.height);
-			ctx.fillStyle = "rgba(255,255,255,0.5)";
+			//canvas
+			var uo = document.getElementById("screengame");
+			var ctx = uo.getContext("2d");
+			ctx.fillStyle = "rgba(255,255,255,1)";
 			ctx.fillRect(0, 0, uo.width, uo.height);
-			var id = socket.io.engine.id;
-			var pos_players=msg.positions_players;
-			var pos_bullets = msg.positions_bullets;
+			
+			//update game
+			socket.on('updateGame', function(msg){
+				console.log(msg);
+				ctx.clearRect(0, 0, uo.width, uo.height);
+				ctx.fillStyle = "rgba(255,255,255,0.5)";
+				ctx.fillRect(0, 0, uo.width, uo.height);
+				var id = socket.io.engine.id;
+				var pos_players=msg.positions_players;
+				var pos_bullets = msg.positions_bullets;
 
-			var player = [];
-			var bullet = [];
-			for(var i in pos_players){
-				if(i==id){
-					player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'black'};
+				var player = [];
+				var bullet = [];
+				for(var i in pos_players){
+					if(i==id){
+						player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'black'};
+					}
+					else{
+						player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'green'};
+					}
+					printPlayer(player[i]);
 				}
-				else{
-					player[i] = {posx: pos_players[i].x, posy: pos_players[i].y, dir: pos_players[i].d, color: 'green'};
+				for(var i=0; i<pos_bullets.length; ++i){
+					bullet[i] = {posbx: pos_bullets[i].x, posby: pos_bullets[i].y};
+					printBullet(bullet[i]);
 				}
-				printPlayer(player[i]);
-			}
-			for(var i=0; i<pos_bullets.length; ++i){
-				bullet[i] = {posbx: pos_bullets[i].x, posby: pos_bullets[i].y};
-				printBullet(bullet[i]);
-			}
-		});
+			});
 
-		//death
-		socket.on('playerDead', function(msg){
-			var id = socket.io.engine.id;
-			var bombImage = new Image();
-			bombImage.src = "img/explosion.png";
-			io.emit('playerDead', id_play);
-		});
+			//death
+			socket.on('playerDead', function(msg){
+				var id = socket.io.engine.id;
+				var bombImage = new Image();
+				bombImage.src = "img/explosion.png";
+				io.emit('playerDead', id_play);
+			});
     	</script>
 			
 	</body>
