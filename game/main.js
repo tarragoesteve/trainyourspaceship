@@ -80,7 +80,7 @@ io.on('connection', function(socket){
 		if(players.length>1){
 			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
-				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 2};
+				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 3};
 			}
 			playing = true;
 		}
@@ -168,12 +168,14 @@ function mainloop() {
 			if(bullets[i].x==positions[id_play].x && bullets[i].y==positions[id_play].y){
 				//still alife?
 				positions[id_play].life--;
+				bullets.splice(i, 1);
 				if(positions[id_play].life==0){
 					//player dead
 					var obj={id: id_play, pos_x: positions[id_play].x, pos_y: positions[id_play].y};
 					io.emit('playerDead',obj);
 					playing=false;
 				}
+				break;
 			}
 		}
 	}
