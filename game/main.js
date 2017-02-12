@@ -25,7 +25,6 @@ app.get('/', function(req, res){
 });
 
 //IO
-
 var players=[];
 var keys={};
 var positions={};
@@ -37,18 +36,22 @@ var players_actions = true;
 var player_Ai = {};
 
 io.on('connection', function(socket){
-   	players.push(socket.id);
-	createPlayer(socket.id);
-	player_Ai[socket.id] = false;
 
+	if(!(socket.id in players)) {
+		players.push(socket.id);
+		network.createPlayer(socket.id);
+		player_Ai[socket.id] = false;
+	}
+  
 	socket.on('disconnect', function(){
-		delete players[socket.id];
+		var index = players.indexOf(socket.id);
+		players.splice(index, 1);
 	});
 	socket.on('keyPressed', function(msg){
 		keys[socket.id]=msg;
 	});
 	socket.on('startGame', function(aiPlayers){
-		if(aiPlayers != 'undefined' || aiPlayers != 'none') {
+		if(aiPlayers != "" && aiPlayers != 'none') {
 			for(i in players) {
 				var id_play = players[i];
 				if(aiPlayers == 'all' || id_play != socket.id) {
@@ -66,9 +69,8 @@ io.on('connection', function(socket){
 
 		if(players.length>1){
 			for (var i=0; i<2; ++i){
-				keys[socket.id]=0;
-				positions[players[i]]={x : Math.round(Math.random()*24),y : Math.round(Math.random()*59), d : Math.round(Math.random()*3)};
-				console.log('Comença la partida');
+				keys[players[i]]=0;
+				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3)};
 			}
 			playing = true;
 		}
@@ -77,9 +79,9 @@ io.on('connection', function(socket){
 	
 function mainloop() {
 	if(!playing) return;
+	//console.log('entra loop');
 	for(var i=0; i<2;++i){
 		var id_play=players[i];
-
 		//moure players
 		if(players_actions){
 
@@ -94,37 +96,54 @@ function mainloop() {
 
 			//actualitzar posicions
 			if(keys[id_play]==0){ //recte
-				if(positions[id_play].d==0) positions[id_play].x++;
-				if(positions[id_play].d==1) positions[id_play].y++;
-				if(positions[id_play].d==2) positions[id_play].x--;
-				if(positions[id_play].d==3) positions[id_play].y--;
+				if(positions[id_play].d==0) positions[id_play].y--;
+				else if(positions[id_play].d==1) positions[id_play].x++;
+				else if(positions[id_play].d==2) positions[id_play].y++;
+				else if(positions[id_play].d==3) positions[id_play].x--;
 			}
 			else if(keys[id_play]==1){//gir esquerra
+				keys[id_play] = 0;
 				positions[id_play].d--;
 				if(positions[id_play].d==-1) positions[id_play].d=3;
 			}
-			else if(keys[id_play]=2){//gir dreta
+			else if(keys[id_play]==2){//gir dreta
+				keys[id_play] = 0;
 				positions[id_play].d++;
 				if(positions[id_play].d==4) positions[id_play].d=0;
 			}
 			//comprovar posicions correctes i actualitzar si surt dels marges
-			if(positions[id_play].x>24) positions[id_play].x=0;
-			else if(positions[id_play].x<0) positions[id_play].x=24;
-			if(positions[id_play].y>59) positions[id_play].y=0;
-			else if(positions[id_play].y<0) positions[id_play].y=59;
+			if(positions[id_play].y>24) positions[id_play].y=0;
+			else if(positions[id_play].y<0) positions[id_play].y=24;
+			if(positions[id_play].x>59) positions[id_play].x=0;
+			else if(positions[id_play].x<0) positions[id_play].x=59;
 		}
 
 		//disparar i tractar bales
 		if(keys[id_play]==3){
+			keys[id_play] = 0;
 			var player_position = positions[id_play];
-			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 20};
+			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 30};
 			bullets.push(new_bullet);
 		}
-		//mou bales
-		for(var i=0; i<bullets.length; ++i){
-			bullets[i].t--;
-			if(bullets[i].t==0) delete bullets[i];
+
+	}
+
+	//mou bales
+	for(var i=0; i<bullets.length; ++i){
+		bullets[i].t--;
+		if(bullets[i].t==0) {
+			bullets.splice(i, 1);
+			continue;
 		}
+		if(bullets[i].d==0) bullets[i].y--;
+		else if(bullets[i].d==1) bullets[i].x++;
+		else if(bullets[i].d==2) bullets[i].y++;
+		else if(bullets[i].d==3) bullets[i].x--;
+
+		if(bullets[i].y>24) bullets[i].y=0;
+		else if(bullets[i].y<0) bullets[i].y=24;
+		if(bullets[i].x>59) bullets[i].x=0;
+		else if(bullets[i].x<0) bullets[i].x=59;
 	}
 
 	//enviar estat
@@ -143,14 +162,8 @@ function mainloop() {
 		}
 	}
 
-	//vector tecles premudes a res
-	for(var i=0; i<2; ++i){
-		id_play=players[i];
-		keys[id_play] = 0;
-	}
-
 	//canviar si es mou el jugador o no
-	players_actions = !player_actions;
+	players_actions = !players_actions;
 }
 
 setInterval(mainloop,100);
