@@ -22,9 +22,9 @@
 			</div>
 			<div style="float:left;margin:30px;">
 				<div style="float:none;">
-					<button type="button" onclick=start0Bot()> 2 players </button>
-					<button type="button" onclick=start1Bot()> 1 player </button>
-					<button type="button" onclick=start2Bot()> Bots time! </button>
+					<button type="button" onclick=start0Bot()> 2 players </button> <br>
+					<button type="button" onclick=start1Bot()> 1 player </button> <br>
+					<button type="button" onclick=start2Bot()> Bots time! </button> <br>
 				</div>
 
 			</div>
@@ -85,15 +85,15 @@
 			}
 
 			//start Game
-			function start0Bot()() {
+			function start0Bot() {
 				socket.emit('startGame','none')
 			}
 
-			function start1Bot()() {
+			function start1Bot(){
 				socket.emit('startGame','solo')
 			}
 
-			function start2Bot()() {
+			function start2Bot() {
 				socket.emit('startGame','all')
 			}
 
