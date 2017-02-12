@@ -5,6 +5,8 @@ var Neuron = synaptic.Neuron,
     Trainer = synaptic.Trainer,
     Architect = synaptic.Architect;
 
+exports.Network = Network;
+
 function Perceptron(input, hidden, output) {
     // create the layers
     var inputLayer = new Layer(input);
@@ -28,8 +30,10 @@ Perceptron.prototype = new Network();
 Perceptron.prototype.constructor = Perceptron;
 
 //Dictionari to store networks
-var netDict = [];
+var netDict = {};
 var trainingSets = [];
+
+exports.netDict = netDict;
 
 function existPlayer(playerid) {
   return (playerid in netDict);
@@ -111,9 +115,9 @@ function get_relative_position(obj1, obj2) {
 
 function startTraining(playerId) {
     var trainer = new Trainer(netDict[playerId]);
-    console.log('start training');
+    console.log('Start training');
     trainer.train(trainingSets[playerId]);
-    console.log('finish training');
+    console.log('Finish training');
 }
 
 exports.startTraining = startTraining;
