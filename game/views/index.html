@@ -85,15 +85,15 @@
 
 			//start Game
 			function start0Bot() {
-				socket.emit('startGame','none')
+				socket.emit('startGame','none');
 			}
 
 			function start1Bot(){
-				socket.emit('startGame','solo')
+				socket.emit('startGame','solo');
 			}
 
 			function start2Bot() {
-				socket.emit('startGame','all')
+				socket.emit('startGame','all');
 			}
 
 			//canvas
@@ -179,6 +179,7 @@
 				setInterval(draw, 50);
 				ctx.clearRect(0, 0, uo.width, uo.height);
 				ctx.fillStyle = "rgba(255,255,255,0.3)";
+				var exploding=true;
 			});
 
     	</script>

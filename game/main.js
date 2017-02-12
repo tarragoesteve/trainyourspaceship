@@ -73,7 +73,7 @@ io.on('connection', function(socket){
 		if(players.length>1){
 			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
-				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 3};
+				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 2};
 			}
 			playing = true;
 		}
