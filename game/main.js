@@ -38,14 +38,15 @@ var player_Ai = {};
 io.on('connection', function(socket){
 
 	if(!(socket.id in players)) {
-    if (players.length > 2) {
-      console.log('we are full');
+		if (players.length > 1) {
+		console.log('we are full');
 
-    } else {
-		players.push(socket.id);
-		network.createPlayer(socket.id);
-		player_Ai[socket.id] = false;
-    }
+		} else {
+			players.push(socket.id);
+			network.createPlayer(socket.id);
+			player_Ai[socket.id] = false;
+			console.log('conected as ' + socket.id);
+		}
 	}
 
 	socket.on('disconnect', function(){
