@@ -9,16 +9,16 @@ Directions:
 Relative distance:
   x, y
 The input defined as a the following:
-Your status (2 nodes):
+Your status (2 nodes): (ens el podem carregar si centrem)
   Direction
 Enemy status(4 nodes):
   Relative distance
-  Direction
+  //Direction
 Nearest bullet(5 nodes)
   Presence
   Relative distance
   Direction
-2n Nearest bullet(5 nodes)
+//2n Nearest bullet(5 nodes)
   Presence
   Relative distance
   Direction

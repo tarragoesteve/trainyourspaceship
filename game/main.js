@@ -38,11 +38,16 @@ var player_Ai = {};
 io.on('connection', function(socket){
 
 	if(!(socket.id in players)) {
+    if (players.length > 2) {
+      console.log('we are full');
+
+    } else {
 		players.push(socket.id);
 		network.createPlayer(socket.id);
 		player_Ai[socket.id] = false;
+    }
 	}
-  
+
 	socket.on('disconnect', function(){
 		var index = players.indexOf(socket.id);
 		players.splice(index, 1);
@@ -80,12 +85,12 @@ io.on('connection', function(socket){
 		}
 	});
 });
-	
+
 function mainloop() {
 	if(!playing) return;
 	for(var i=0; i<2;++i){
 		var id_play=players[i];
-		if(positions[id_play].bull!=0) positions[id_play].bull--;
+		//if(positions[id_play].bull!=0) positions[id_play].bull--;
 		//moure players
 		if(players_actions){
 
