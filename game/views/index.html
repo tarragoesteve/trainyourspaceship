@@ -15,6 +15,10 @@
 
 		<h2 style="color:chartreuse;text-align:center;">Train your Spaceship</h1>
 		<h3 style="color:blueviolet;text-align:center;">MILKY WAY</h2>
+		
+		<h4 style="color: white;display: inline">Your points: <strong id="cpl1">0</strong> ---- </h4>
+		<h4 style="color: white;display: inline">Enemy points: <strong id="cpl2">0</strong></h4>
+		
 		<div style="overflow: hidden">
 			<div style="margin:auto;width:1200px;float:left;">
 				<canvas id="screengame" width=1200 height=500 style="border:1px solid #000000; ">
@@ -25,6 +29,7 @@
 					<button type="button" onclick=start0Bot()> 2 players </button> <br>
 					<button type="button" onclick=start1Bot()> 1 player </button> <br>
 					<button type="button" onclick=start2Bot()> Bots time! </button> <br>
+					
 				</div>
 
 			</div>
@@ -130,13 +135,30 @@
 				}
 			});
 
+			//counters
+			var counterplayer1=0;
+			var counterplayer2=0;
+
 			//death
 			socket.on('playerDead', function(msg){
 				var id = socket.io.engine.id;
 				var bombImage = new Image();
 				bombImage.src = "img/explosion.png";
-				io.emit('playerDead', id_play);
+
+				if (id==msg){
+					counterplayer2+=1;
+					document.getElementById("cpl2").innerHTML = counterplayer2;
+				}
+				else{
+					counterplayer1+=1;
+					document.getElementById("cpl1").innerHTML = counterplayer1;
+				}
 			});
+			
+			
+				
+			
+			
     	</script>
 
 	</body>
