@@ -110,9 +110,17 @@
 
 		<h1 style="color:chartreuse;text-align:center;">Train your Spaceship</h1>
 		<h2 style="color:blueviolet;text-align:center;">MILKY WAY</h2>
-		
+		<div style:"float:right;">
+			<h4 id="points1" style="color: white;display: inline">Your points: <strong id="cpl1">0</strong> ---- </h4>
+			<h4 id = "points2" style="color: white;display: inline">Enemy points: <strong id="cpl2">0</strong></h4>
+			
+		</div>
 		<h4 id="points1" style="color: white">Your points: <strong id="cpl1">0</strong> ---- Enemy points: <strong id="cpl2">0</strong></h4>
+
 		<h2 id="enunciatBut" style="color: white;display: inline"> Choose your ship style! </strong></h2>
+		<div style:"float:right;">
+		</div>
+		
 		<div style="overflow: hidden">
 			<div style="margin:auto;width:1200px;">
 				<canvas id="screengame" width=1200 height=500 style="border:1px solid #000000; ">
@@ -265,8 +273,11 @@
 				for(var i=0; i<pos_bullets.length; ++i){
 					bullet[i] = {posbx: pos_bullets[i].x, posby: pos_bullets[i].y};
 					printBullet(bullet[i]);
-				}
+				}	
+				document.getElementById("lif1").innerHTML = pos_players[id].life;
 			});
+
+			
 
 			//counters
 			var counterplayer1=0;
@@ -287,6 +298,8 @@
 					counterplayer1+=1;
 					document.getElementById("cpl1").innerHTML = counterplayer1;
 				}
+
+				
 
 			
 				var spriteWidth=2048;
