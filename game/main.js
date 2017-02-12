@@ -74,7 +74,7 @@ io.on('connection', function(socket){
 		if(players.length>1){
 			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
-				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3)};
+				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 2};
 			}
 			playing = true;
 		}
@@ -85,6 +85,7 @@ function mainloop() {
 	if(!playing) return;
 	for(var i=0; i<2;++i){
 		var id_play=players[i];
+		if(positions[id_play].bull!=0) positions[id_play].bull--;
 		//moure players
 		if(players_actions){
 
@@ -122,11 +123,12 @@ function mainloop() {
 		}
 
 		//disparar i tractar bales
-		if(keys[id_play]==3){
+		if(keys[id_play]==3 && positions[id_play].bull==0){
 			keys[id_play] = 0;
 			var player_position = positions[id_play];
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 30};
 			bullets.push(new_bullet);
+			positions[id_play].bull=10;
 		}
 
 	}
@@ -158,9 +160,14 @@ function mainloop() {
 		for(var j=0; j<2; ++j){
 			var id_play=players[j];
 			if(bullets[i].x==positions[id_play].x && bullets[i].y==positions[id_play].y){
-				//player dead
-				io.emit('playerDead', id_play);
-				playing=false;
+				//still alife?
+				positions[id_play].life--;
+				if(positions[id_play].life==0){
+					//player dead
+					var obj={id: id_play, pos_x: positions[id_play].x, pos_y: positions[id_play].y};
+					io.emit('playerDead',obj);
+					playing=false;
+				}
 			}
 		}
 	}

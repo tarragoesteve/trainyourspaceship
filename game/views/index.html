@@ -7,8 +7,36 @@
 	<style>
 	body {
 			background-color:black;
-
 	}
+	#tankyB{
+		position: absolute;
+		top: 250px;
+		left: 45%;
+		width: 150px;
+		height: 40px;
+		border-radius: 5px;
+		background: rgba(255,255,255,0);
+	}
+	#TSPB{
+		position: absolute;
+		top: 300px;
+		left: 45%;
+		width: 150px;
+		height: 40px;
+		border-radius: 5px;
+		background: rgba(255,255,255,0);
+	}
+	#MGB{
+		position: absolute;
+		top: 350px;
+		left: 45%;
+		width: 150px;
+		height: 40px;
+		border-radius: 5px;
+		font-
+		background: rgba(255,255,255,0);
+	}
+
 	</style>
 
 	<body background="/img/6946579-space-stars-background.jpg">
@@ -19,6 +47,11 @@
 			<div style="margin:auto;width:1200px;float:left;">
 				<canvas id="screengame" width=1200 height=500 style="border:1px solid #000000; ">
 				</canvas>
+				<div style="float:none;">
+					<button id = "tankyB" type="button" onclick=chooseTanky()> Tanky </button> <br>
+					<button id = "TSPB" type="button" onclick=chooseTwoSP()> Two shooting spots </button> <br>
+					<button id = "MGB" type="button" onclick=chooseMG()> Machine Gun </button> <br>
+				</div>
 			</div>
 			<div style="float:left;margin:30px;">
 				<div style="float:none;">
@@ -51,6 +84,10 @@
 				}
 			}, true);
 
+			//functions choose Spaceship
+			function chooseTanky(){
+
+			}
 			//print player
 			function printPlayer(player) {
 				ctx.fillStyle = player.color;
@@ -85,28 +122,40 @@
 
 			//start Game
 			function start0Bot() {
-				socket.emit('startGame','none')
+				uo.style.visibility = 'visible';
+				document.getElementById("tankyB").style.visibility = "hidden";
+				document.getElementById("TSPB").style.visibility = "hidden";
+				document.getElementById("MGB").style.visibility = "hidden";
+				socket.emit('startGame','none');
+
 			}
 
 			function start1Bot(){
-				socket.emit('startGame','solo')
+				uo.style.visibility = 'visible';
+				document.getElementById("tankyB").style.visibility = "hidden";
+				document.getElementById("TSPB").style.visibility = "hidden";
+				document.getElementById("MGB").style.visibility = "hidden";
+				socket.emit('startGame','solo');
 			}
 
 			function start2Bot() {
-				socket.emit('startGame','all')
+				uo.style.visibility = 'visible';
+				document.getElementById("tankyB").style.visibility = "hidden";
+				document.getElementById("TSPB").style.visibility = "hidden";
+				document.getElementById("MGB").style.visibility = "hidden";
+				socket.emit('startGame','all');
 			}
 
 			//canvas
 			var uo = document.getElementById("screengame");
 			var ctx = uo.getContext("2d");
-			ctx.fillStyle = "rgba(255,255,255,1)";
-			ctx.fillRect(0, 0, uo.width, uo.height);
+			uo.style.visibility = 'hidden';
 
 			//update game
 			socket.on('updateGame', function(msg){
 				console.log(msg);
 				ctx.clearRect(0, 0, uo.width, uo.height);
-				ctx.fillStyle = "rgba(255,255,255,0.5)";
+				ctx.fillStyle = "rgba(255,255,255,0.3)";
 				ctx.fillRect(0, 0, uo.width, uo.height);
 				var id = socket.io.engine.id;
 				var pos_players=msg.positions_players;
@@ -130,12 +179,58 @@
 			});
 
 			//death
+			var exploding=true;
 			socket.on('playerDead', function(msg){
-				var id = socket.io.engine.id;
-				var bombImage = new Image();
-				bombImage.src = "img/explosion.png";
-				io.emit('playerDead', id_play);
+				var spriteWidth=2048;
+				var spriteHeight = 1536;
+
+				var rows = 6;
+				var cols = 8;
+
+				var width = spriteWidth/cols;
+				var height = spriteHeight/rows;
+
+				var curFrame=0;
+				var frameCount = 47; 
+
+				var x= msg.pos_x*20 - 128;//error out of margins!!!!!!!!!!!!
+				var y= msg.pos_y*20 - 128;
+
+				var srcX=0;
+				var srcY=0;
+
+				var bomb = new Image();
+				bomb.src = "img/explosion.png";
+
+				function updateFrame(){
+					srcX++;
+					if (srcX == cols){
+						srcX = 0;
+						srcY++;
+						if (srcY == rows) {
+							srcY = 0;
+							exploding=false;		
+						}				
+					}
+				}
+
+				function draw(){
+					if(exploding) {
+						updateFrame();
+						ctx.clearRect(0, 0, uo.width, uo.height);
+						ctx.fillStyle = "rgba(255,255,255,0.3)";
+						ctx.fillRect(0, 0, uo.width, uo.height);
+						console.log(srcX);
+						console.log(srcY);
+						ctx.drawImage(bomb, srcX*256, srcY*256, width, height,x,y,200,200);
+					}
+				}
+				setInterval(draw, 50);
+				ctx.clearRect(0, 0, uo.width, uo.height);
+				ctx.fillStyle = "rgba(255,255,255,0.3)";
+				var exploding=true;
 			});
+
     	</script>
 
 	</body>
