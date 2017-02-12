@@ -21,9 +21,9 @@
 				</canvas>
 			</div>
 			<div style="float:left;margin:30px;">
-				<button type="button" onclick=start0Bot()>2 players</button>
-				<button type="button" onclick=start1Bot()>1 player</button>
-				<button type="button" onclick=start2Bot()> Bots time!</button>
+				<button type="button" onclick=start0Bot()> 2 players </button>
+				<button type="button" onclick=start1Bot()> 1 player </button>
+				<button type="button" onclick=start2Bot()> Bots time! </button>
 
 			</div>
 		</div>
@@ -83,8 +83,16 @@
 			}
 
 			//start Game
-			function startGame() {
-				socket.emit('startGame','')
+			function start0Bot()() {
+				socket.emit('startGame','none')
+			}
+
+			function start1Bot()() {
+				socket.emit('startGame','solo')
+			}
+
+			function start2Bot()() {
+				socket.emit('startGame','all')
 			}
 
 			//canvas
