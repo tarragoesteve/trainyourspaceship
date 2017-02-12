@@ -140,10 +140,6 @@ function mainloop() {
 			var player_position = positions[id_play];
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 30};
 			bullets.push(new_bullet);
-      if ( player_types[id_play] == 2){
-        var sec_bullet = {x :player_position.x , y :  player_position.y, d : (player_position.d + 2)%4, t : 30};
-        bullets.push(sec_bullet);
-      }
 			positions[id_play].bull=10;
 			if(player_types ==3) positions[id_play].bull=5;
 		}
