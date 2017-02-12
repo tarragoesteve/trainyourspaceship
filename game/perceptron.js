@@ -177,11 +177,7 @@ function transformState(active_player, player_positions, bullets) {
       return distanceA - distanceB;
     }
 
-    var i = 0;
     for(player_position in player_positions) {
-        if(i > 1) break;
-        i++;
-
         if(player_position != active_player) player2 = player_positions[player_position];
     }
 
