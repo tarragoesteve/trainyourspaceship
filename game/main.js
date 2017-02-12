@@ -29,6 +29,7 @@ var players=[];
 var keys={};
 var positions={};
 var bullets=[];
+var player_types = {};
 
 var playing = false;
 var players_actions = true;
@@ -56,14 +57,18 @@ io.on('connection', function(socket){
 	socket.on('keyPressed', function(msg){
 		keys[socket.id]=msg;
 	});
+	socket.on('playerType', function(msg){
+		player_types[socket.id] = msg;
+	});
+
 	socket.on('startGame', function(aiPlayers){
 		io.emit('canvasVisible', '');
 		bullets=[];
 
-		if(aiPlayers.type != "" && aiPlayers.type != 'none') {
+		if(aiPlayers != "" && aiPlayers != 'none') {
 			for(i in players) {
 				var id_play = players[i];
-				if(aiPlayers.type == 'all' || id_play != socket.id) {
+				if(aiPlayers == 'all' || id_play != socket.id) {
 					player_Ai[id_play] = true;
 					network.startTraining(id_play);
 				}
@@ -81,6 +86,7 @@ io.on('connection', function(socket){
 			for (var i=0; i<2; ++i){
 				keys[players[i]]=0;
 				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 3};
+				if(typeof player_types[players[i]] == 'undefined' || player_types[players[i]] == 1) positions[players[i]].life += 2;
 			}
 			playing = true;
 		}
@@ -134,7 +140,12 @@ function mainloop() {
 			var player_position = positions[id_play];
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 30};
 			bullets.push(new_bullet);
+			if ( player_types[id_play] == 2){
+				var sec_bullet = {x :player_position.x , y :  player_position.y, d : (player_position.d + 2)%4, t : 30};
+				bullets.push(sec_bullet);
+			}
 			positions[id_play].bull=10;
+			if(player_types[id_play] == 3) positions[id_play].bull=5;
 		}
 
 	}
