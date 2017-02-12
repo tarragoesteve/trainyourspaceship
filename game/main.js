@@ -32,7 +32,9 @@ var playing=false;
 var players_actions = true;
 
 io.on('connection', function(socket){
-   players.push(socket.id);
+	if(!(socket.id in players)) {
+   		players.push(socket.id);
+	}
 	//Hello
 	socket.on('disconnect', function(){
 		var index = players.indexOf(socket.id);
