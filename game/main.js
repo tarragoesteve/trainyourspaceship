@@ -59,6 +59,7 @@ io.on('connection', function(socket){
 				var id_play = players[i];
 				if(aiPlayers == 'all' || id_play != socket.id) {
 					player_Ai[id_play] = true;
+					network.startTraining(id_play);
 				}
 				else player_Ai[id_play] = false;
 			}
