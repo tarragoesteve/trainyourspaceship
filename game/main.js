@@ -51,6 +51,9 @@ io.on('connection', function(socket){
 		keys[socket.id]=msg;
 	});
 	socket.on('startGame', function(aiPlayers){
+
+		bullets=[];
+
 		if(aiPlayers != "" && aiPlayers != 'none') {
 			for(i in players) {
 				var id_play = players[i];
@@ -79,7 +82,6 @@ io.on('connection', function(socket){
 	
 function mainloop() {
 	if(!playing) return;
-	//console.log('entra loop');
 	for(var i=0; i<2;++i){
 		var id_play=players[i];
 		//moure players

@@ -21,17 +21,18 @@
 				</canvas>
 			</div>
 			<div style="float:left;margin:30px;">
-				<button type="button" onclick=start0Bot()>2 players</button>
-				<button type="button" onclick=start1Bot()>1 player</button>
-				<button type="button" onclick=start2Bot()> Bots time!</button>
+				<div style="float:none;">
+					<button type="button" onclick=start0Bot()> 2 players </button> <br>
+					<button type="button" onclick=start1Bot()> 1 player </button> <br>
+					<button type="button" onclick=start2Bot()> Bots time! </button> <br>
+				</div>
 
 			</div>
 		</div>
 
 
 		<!-- Js -->
-	    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-	    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	    <script src="/js/socket.io-1.2.0.js"></script>
 	    <script>
 			//init
 			var socket = io();
@@ -83,8 +84,16 @@
 			}
 
 			//start Game
-			function startGame() {
-				socket.emit('startGame','')
+			function start0Bot() {
+				socket.emit('startGame','none')
+			}
+
+			function start1Bot(){
+				socket.emit('startGame','solo')
+			}
+
+			function start2Bot() {
+				socket.emit('startGame','all')
 			}
 
 			//canvas
