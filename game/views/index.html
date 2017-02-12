@@ -37,8 +37,7 @@
 
 
 		<!-- Js -->
-	    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-	    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	    <script src="/js/socket.io-1.2.0.js"></script>
 	    <script>
 			//init
 			var socket = io();
@@ -140,12 +139,13 @@
 			var counterplayer2=0;
 
 			//death
+			var exploding=true;
 			socket.on('playerDead', function(msg){
 				var id = socket.io.engine.id;
 				var bombImage = new Image();
 				bombImage.src = "img/explosion.png";
 
-				if (id==msg){
+				if (id==msg.id){
 					counterplayer2+=1;
 					document.getElementById("cpl2").innerHTML = counterplayer2;
 				}
@@ -153,12 +153,56 @@
 					counterplayer1+=1;
 					document.getElementById("cpl1").innerHTML = counterplayer1;
 				}
+
+			
+				var spriteWidth=2048;
+				var spriteHeight = 1536;
+
+				var rows = 6;
+				var cols = 8;
+
+				var width = spriteWidth/cols;
+				var height = spriteHeight/rows;
+
+				var curFrame=0;
+				var frameCount = 47; 
+
+				var x= msg.pos_x*20 - 128;//error out of margins!!!!!!!!!!!!
+				var y= msg.pos_y*20 - 128;
+
+				var srcX=0;
+				var srcY=0;
+
+				var bomb = new Image();
+				bomb.src = "img/explosion.png";
+
+				function updateFrame(){
+					srcX++;
+					if (srcX == cols){
+						srcX = 0;
+						srcY++;
+						if (srcY == rows) {
+							srcY = 0;
+							exploding=false;		
+						}				
+					}
+				}
+
+				function draw(){
+					if(exploding) {
+						updateFrame();
+						ctx.clearRect(0, 0, uo.width, uo.height);
+						ctx.fillStyle = "rgba(255,255,255,0.5)";
+						ctx.fillRect(0, 0, uo.width, uo.height);
+						console.log(srcX);
+						console.log(srcY);
+						ctx.drawImage(bomb, srcX*256, srcY*256, width, height,x,y,200,200);
+					}
+				}
+				setInterval(draw, 50);
+				ctx.clearRect(0, 0, uo.width, uo.height);
+				ctx.fillStyle = "rgba(255,255,255,0.5)";
 			});
-			
-			
-				
-			
-			
     	</script>
 
 	</body>
