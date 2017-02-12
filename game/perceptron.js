@@ -36,7 +36,7 @@ function existPlayer(playerid) {
 }
 
 function createPlayer(playerid){
-  netDict[playerid] = new Architect.Perceptron(2,4,4);
+  netDict[playerid] = new Architect.Perceptron(6,5,4);
   trainingSets[playerid] = [];
   return existPlayer(playerid);
 }
@@ -62,7 +62,7 @@ function trainNet(playerid, input, action){
   weigth = 0.3;
   trainingSets[playerid].push({input: input, output: actionToOutput(action)});
   //netDict[playerid].propagate(weigth, actionToOutput(action));
-  
+
 }
 
 function actionToOutput(action) {
@@ -148,7 +148,7 @@ function get_relative_enemy_position(obj1, obj2, dir){
       x = -x;
 
     }else if (dir == 3){
-      var aux = x;      
+      var aux = x;
       x = -y;
       y = -aux;
     }
@@ -190,7 +190,7 @@ function transformState(active_player, player_positions, bullets) {
     pos = get_relative_enemy_position(player1, player2,player1.d);
     new_state.push(pos.x/30);
     new_state.push(pos.y/12.5);
-    /*
+
     if(bullets.length > 0) {
 
         //get bullets
@@ -200,16 +200,19 @@ function transformState(active_player, player_positions, bullets) {
         //add bullet1
         new_state.push(pos.x);
         new_state.push(pos.y);
+        new_state.push(bullets[0].d%2);
+        new_state.push(Math.floor( bullets[0].d/2));
 
     }
     else {
         //add bullet1
         new_state.push(100);
         new_state.push(100);
-    }*/
+
+    }
 
     return new_state;
-    
+
 }
 
 exports.transformState = transformState;
