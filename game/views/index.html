@@ -11,29 +11,34 @@
 	#tankyB{
 		position: absolute;
 		top: 250px;
-		left: 45%;
-		width: 150px;
-		height: 40px;
+		left: 43%;
+		width: 200px;
+		height: 45px;
 		border-radius: 5px;
+		color:white;
+		font-size: 20px;
 		background: rgba(255,255,255,0);
 	}
 	#TSPB{
 		position: absolute;
 		top: 300px;
-		left: 45%;
-		width: 150px;
-		height: 40px;
+		left: 43%;
+		width: 200px;
+		height: 45px;
 		border-radius: 5px;
+		color:white;
+		font-size: 20px;
 		background: rgba(255,255,255,0);
 	}
 	#MGB{
 		position: absolute;
 		top: 350px;
-		left: 45%;
-		width: 150px;
-		height: 40px;
+		left: 43%;
+		width: 200px;
+		height: 45px;
 		border-radius: 5px;
-		font-
+		font-size: 20px;
+		color:white;
 		background: rgba(255,255,255,0);
 	}
 
@@ -69,6 +74,7 @@
 	    <script>
 			//init
 			var socket = io();
+			var person;
 
 			//Pres keys
 			document.addEventListener('keydown', function(event) {
@@ -86,7 +92,16 @@
 
 			//functions choose Spaceship
 			function chooseTanky(){
+				person=0;
+				uo.getElementById("tankyB").style.backgroundColor = rgba(255,255,255,0.5);
+			}
 
+			function chooseTwoSP(){
+				person=1;
+			}
+
+			function chooseMG(){
+				person=2;
 			}
 			//print player
 			function printPlayer(player) {
