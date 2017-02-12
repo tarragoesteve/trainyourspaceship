@@ -87,6 +87,7 @@ io.on('connection', function(socket){
 				keys[players[i]]=0;
 				positions[players[i]]={x : Math.round(Math.random()*59),y : Math.round(Math.random()*24), d : Math.round(Math.random()*3), bull: 0, life: 3};
 				if(typeof player_types[players[i]] == 'undefined' || player_types[players[i]] == 1) positions[players[i]].life += 2;
+				if(player_types[players[i]] == 2) positions[players[i]].life -= 1;
 			}
 			playing = true;
 		}
@@ -139,6 +140,16 @@ function mainloop() {
 			keys[id_play] = 0;
 			var player_position = positions[id_play];
 			var new_bullet = {x :player_position.x , y :  player_position.y, d : player_position.d, t : 30};
+			if(new_bullet.d==0) new_bullet.y--;
+			else if(new_bullet.d==1) new_bullet.x++;
+			else if(new_bullet.d==2) new_bullet.y++;
+			else if(new_bullet.d==3) new_bullet.x--;
+
+			if(new_bullet.y>24) new_bullet.y=0;
+			else if(new_bullet.y<0) new_bullet.y=24;
+			if(new_bullet.x>59) new_bullet.x=0;
+			else if(new_bullet.x<0) new_bullet.x=59;
+
 			bullets.push(new_bullet);
 			if ( player_types[id_play] == 2){
 				var sec_bullet = {x :player_position.x , y :  player_position.y, d : (player_position.d + 2)%4, t : 30};
