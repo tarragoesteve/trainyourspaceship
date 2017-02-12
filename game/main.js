@@ -196,3 +196,25 @@ function mainloop() {
 }
 
 setInterval(mainloop,100);
+
+//Serve html
+app.get('/getBot1', function(req, res){
+	var id = players[0];
+ 	res.json(network.netDict[id].toJSON());
+});
+
+app.post('/setBot1', function(req, res) {
+	var id = players[0];
+	network.netDict[id] = network.Network.fromJSON(req.params.net);
+});
+
+app.get('/getBot2', function(req, res){
+	var id = players[1];
+ 	res.json(network.netDict[id].toJSON());
+});
+
+app.post('/setBot2', function(req, res) {
+	var id = players[1];
+	network.netDict[id] = network.Network.fromJSON(req.body);
+	res.json({status : "success"});
+});
